@@ -69,3 +69,7 @@ This project is a Weather Dashboard that provides real-time weather insights and
 4. Commit your changes (`git commit -m 'Add some feature'`).
 5. Push to the branch (`git push origin feature-branch`).
 6. Open a pull request.
+
+# Live URL
+
+https://resilient-moonbeam-529a27.netlify.app/
