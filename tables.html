@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Usman's WeatherApp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="WeatherDashboard.css" />
+  </head>
+
+  <body>
+    <div class="dashboard-container">
+      <!-- Side Menu -->
+      <aside class="side-menu">
+        <button class="menu-toggle" id="menu-toggle">&#9776;</button>
+        <div class="menu-content">
+          <img
+            src="images/weatherlogo.png"
+            alt="weather logo"
+            class="weather-logo"
+          />
+          <div class="logo">WeatherApp</div>
+        </div>
+        <nav id="nav-links">
+          <a href="index.html" id="dashboard"
+            ><i class="fas fa-tachometer-alt"></i> Dashboard</a
+          >
+          <a href="tables.html" class="active" id="tables"
+            ><i class="fas fa-table"></i> Tables</a
+          >
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <div class="header-bar">
+          <h1 style="font-weight: bold; font-size: 2rem">
+            Real-Time Weather Insights
+          </h1>
+
+          <div class="user-profile">
+            <img src="images/user-profile.jpeg" alt="User Profile" />
+          </div>
+        </div>
+
+        <div class="search-container">
+          <input type="text" id="city-input" placeholder="Enter city name" />
+          <button id="fetch-weather">Get Weather</button>
+          <button id="geolocation-button" class="icon-button">
+            <i class="fas fa-map-marker-alt"></i>
+          </button>
+
+          <!-- Updated Toggle Switch -->
+          <label class="toggle-label">
+            <span class="unit-text">°C</span>
+            <!-- Celsius Text -->
+            <input type="checkbox" class="toggle" />
+            <span class="toggle-slider"></span>
+            <span class="unit-text">°F</span>
+            <!-- Fahrenheit Text -->
+          </label>
+        </div>
+
+        <!-- Layout for Table and Chatbot -->
+        <div
+          class="flex flex-col lg:flex-row gap-8"
+          id="weather-section"
+          style="display: none"
+        >
+          <!-- Weather Data Table -->
+          <div class="flex-1 bg-white p-6 rounded-lg shadow-lg w-full">
+            <h2 class="text-center text-xl font-bold text-indigo-700 mb-4">
+              5-Day Weather Forecast
+            </h2>
+
+            <div class="flex justify-center gap-4 mb-4 flex-wrap">
+              <button
+                id="sortAsc"
+                class="bg-blue-500 hover:bg-blue-600 active:scale-95 text-white px-4 py-2 rounded transition-all duration-300 ease-in-out shadow-md hover:shadow-lg w-full sm:w-auto"
+              >
+                Sort Ascending
+              </button>
+
+              <button
+                id="sortDesc"
+                class="bg-red-500 hover:bg-red-600 active:scale-95 text-white px-4 py-2 rounded transition-all duration-300 ease-in-out shadow-md hover:shadow-lg w-full sm:w-auto"
+              >
+                Sort Descending
+              </button>
+
+              <button
+                id="filterRain"
+                class="bg-green-500 hover:bg-green-600 active:scale-95 text-white px-4 py-2 rounded transition-all duration-300 ease-in-out shadow-md hover:shadow-lg w-full sm:w-auto"
+              >
+                Filter Rain
+              </button>
+
+              <button
+                id="showHighestTemp"
+                class="bg-yellow-500 hover:bg-yellow-600 active:scale-95 text-white px-4 py-2 rounded transition-all duration-300 ease-in-out shadow-md hover:shadow-lg w-full sm:w-auto"
+              >
+                Show Highest Temp
+              </button>
+
+              <!-- Reset Filter Button -->
+              <button
+                id="resetFilter"
+                class="bg-gray-500 hover:bg-gray-600 active:scale-95 text-white px-4 py-2 rounded transition-all duration-300 ease-in-out shadow-md hover:shadow-lg w-full sm:w-auto"
+                style="display: none"
+              >
+                Reset Filter
+              </button>
+            </div>
+
+            <table
+              class="w-full text-center border-collapse border border-gray-300"
+            >
+              <thead class="bg-blue-600 text-white">
+                <tr>
+                  <th
+                    class="border border-gray-300 px-2 py-2 text-xs sm:text-base"
+                  >
+                    Date
+                  </th>
+                  <th
+                    class="border border-gray-300 px-2 py-2 text-xs sm:text-base"
+                  >
+                    Temperature
+                  </th>
+                  <th
+                    class="border border-gray-300 px-2 py-2 text-xs sm:text-base"
+                  >
+                    Condition
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="weatherData" class="bg-gray-50">
+                <tr>
+                  <td
+                    class="border border-gray-300 px-2 py-2 text-xs sm:text-base"
+                  >
+                    Oct 17
+                  </td>
+                  <td
+                    class="border border-gray-300 px-2 py-2 text-xs sm:text-base"
+                  >
+                    25°C
+                  </td>
+                  <td
+                    class="border border-gray-300 px-2 py-2 text-xs sm:text-base"
+                  >
+                    Sunny
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="flex justify-between items-center mt-4">
+              <button
+                id="prevPage"
+                class="bg-indigo-500 hover:bg-indigo-600 px-4 py-2 rounded text-white transition-all duration-300 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                disabled
+              >
+                Previous
+              </button>
+
+              <span class="text-gray-700" id="pageIndicator">Page 1 of 4</span>
+
+              <button
+                id="nextPage"
+                class="bg-indigo-500 hover:bg-indigo-600 px-4 py-2 rounded text-white transition-all duration-300 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                disabled
+              >
+                Next
+              </button>
+            </div>
+          </div>
+
+          <!-- Chatbot Section -->
+          <div class="flex-1 bg-white p-4 sm:p-6 rounded-lg shadow-lg w-full">
+            <h2
+              class="text-center text-lg sm:text-xl font-bold text-indigo-700 mb-4"
+            >
+              Chat with WeatherBot
+            </h2>
+
+            <div
+              id="chat-messages"
+              class="flex-1 overflow-y-auto bg-gray-100 p-4 mb-4 rounded h-64 sm:h-80 md:h-96 space-y-4"
+            >
+              <!-- Chat messages will appear here -->
+            </div>
+
+            <div class="flex items-center gap-2">
+              <input
+                type="text"
+                id="chat-input"
+                placeholder="Ask me about the weather..."
+                class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              />
+              <button
+                class="p-2 bg-indigo-500 text-white rounded hover:bg-indigo-600 transition-all duration-200 btn-for-chatbot"
+              >
+                <i class="fas fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Response Area -->
+          <div id="response" class="mt-2 text-gray-700"></div>
+          <!-- Loading Spinner -->
+          <div class="spinner-container" style="display: none">
+            <div class="spinner"></div>
+            <div></div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="tables.js"></script>
+  </body>
+</html>

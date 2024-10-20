@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Usman's WeatherApp</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome Icons -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="WeatherDashboard.css" />
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <!-- Side Menu -->
+      <aside class="side-menu">
+        <button class="menu-toggle" id="menu-toggle">&#9776;</button>
+        <div class="menu-content">
+          <img
+            src="images/weatherlogo.png"
+            alt="weather logo"
+            class="weather-logo"
+          />
+          <div class="logo">WeatherApp</div>
+        </div>
+        <nav id="nav-links">
+          <a href="#" class="active" id="dashboard"
+            ><i class="fas fa-tachometer-alt"></i> Dashboard</a
+          >
+          <a href="tables.html" id="tables"
+            ><i class="fas fa-table"></i> Tables</a
+          >
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- header-bar -->
+        <div class="header-bar">
+          <h1 style="font-weight: bold; font-size: 2rem">
+            Real-Time Weather Insights
+          </h1>
+
+          <div class="user-profile">
+            <img src="images/user-profile.jpeg" alt="User Profile" />
+          </div>
+        </div>
+        <!-- Search Container -->
+        <div class="search-container">
+          <input type="text" id="city-input" placeholder="Enter city name" />
+          <button id="fetch-weather">Get Weather</button>
+
+          <button id="geolocation-button" class="icon-button">
+            <i class="fas fa-map-marker-alt"></i>
+          </button>
+          <!-- Updated Toggle Switch -->
+          <label class="toggle-label">
+            <span class="unit-text">°C</span>
+            <!-- Celsius Text -->
+            <input type="checkbox" class="toggle" />
+            <span class="toggle-slider"></span>
+            <span class="unit-text">°F</span>
+            <!-- Fahrenheit Text -->
+          </label>
+        </div>
+
+        <!-- Weather Widget -->
+        <div class="weather-widget" id="weather-widget" style="display: none">
+          <div class="weather-left">
+            <h2 id="city-name">Mexico</h2>
+            <img id="weather-icon" src="#" alt="Weather Icon" />
+            <p id="weather-type">type</p>
+            <p id="temperature">29°C</p>
+          </div>
+          <div class="weather-right">
+            <div class="info-card">
+              <i class="fas fa-tint fa-lg"></i>
+              <p>Humidity</p>
+              <p id="humidity">79%</p>
+            </div>
+            <div class="info-card">
+              <i class="fas fa-wind fa-lg"></i>
+              <p>Wind Speed</p>
+              <p id="wind-speed">2.44 m/s</p>
+            </div>
+            <div class="info-card">
+              <i class="fas fa-tachometer-alt fa-lg"></i>
+              <p>Pressure</p>
+              <p id="pressure">1009 hPa</p>
+            </div>
+          </div>
+        </div>
+        <!-- Five-Day Forecast -->
+        <div
+          class="five-day-forecast"
+          id="five-day-forecast"
+          style="display: none"
+        >
+          <h3
+            class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 text-center my-4"
+          >
+            5-Day Forecast
+          </h3>
+
+          <div class="forecast-container">
+            <div class="forecast-day">
+              <p class="day-name">Day 1</p>
+              <img src="" alt="Weather Icon" class="forecast-icon" />
+              <p class="forecast-temp">Temperature</p>
+            </div>
+            <div class="forecast-day">
+              <p class="day-name">Day 2</p>
+              <img src="" alt="Weather Icon" class="forecast-icon" />
+              <p class="forecast-temp">Temperature</p>
+            </div>
+            <div class="forecast-day">
+              <p class="day-name">Day 3</p>
+              <img src="" alt="Weather Icon" class="forecast-icon" />
+              <p class="forecast-temp">Temperature</p>
+            </div>
+            <div class="forecast-day">
+              <p class="day-name">Day 4</p>
+              <img src="" alt="Weather Icon" class="forecast-icon" />
+              <p class="forecast-temp">Temperature</p>
+            </div>
+            <div class="forecast-day">
+              <p class="day-name">Day 5</p>
+              <img src="" alt="Weather Icon" class="forecast-icon" />
+              <p class="forecast-temp">Temperature</p>
+            </div>
+          </div>
+        </div>
+        <!-- Chart Section -->
+        <div class="chart-section" style="display: none">
+          <div class="chart-container">
+            <h3 class="chart-title">Temperature Variation</h3>
+            <canvas id="tempChart" width="400" height="500"></canvas>
+          </div>
+          <div class="chart-container">
+            <h3 class="chart-title">Weather Condition Distribution</h3>
+            <canvas id="conditionChart"></canvas>
+          </div>
+          <div class="chart-container">
+            <h3 class="chart-title">Wind Speed Over Time</h3>
+            <canvas id="windChart"></canvas>
+          </div>
+        </div>
+        <!-- Loading Spinner -->
+        <div class="spinner-container" style="display: none">
+          <div class="spinner"></div>
+          <div></div>
+        </div>
+      </main>
+    </div>
+    <script src="WeatherDashboard.js"></script>
+  </body>
+</html>
