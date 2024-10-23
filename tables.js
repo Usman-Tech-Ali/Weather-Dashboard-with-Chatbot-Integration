@@ -455,6 +455,7 @@ async function fetchWeatherData(city) {
     const data = await response.json();
     const condition = data.list[0].weather[0].main;
     updateBackground(condition);
+
     weatherData = data.list.map((item) => ({
       date: item.dt_txt.split(" ")[0],
       temp: item.main.temp,
