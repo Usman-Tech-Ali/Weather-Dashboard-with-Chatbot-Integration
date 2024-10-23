@@ -338,21 +338,21 @@ function displayCharts(forecastData) {
     },
   });
 
-  const windCtx = document.getElementById("windChart").getContext("2d");
-  const windSpeeds = forecastData.list
+  const tempCtx1 = document.getElementById("windChart").getContext("2d");
+  const temperatures = forecastData.list
     .slice(0, 5)
-    .map((item) => item.wind.speed);
+    .map((item) => item.main.temp);
 
-  windChartInstance = new Chart(windCtx, {
+  windChartInstance = new Chart(tempCtx1, {
     type: "line",
     data: {
       labels: labels,
       datasets: [
         {
-          label: "Wind Speed (m/s)",
-          data: windSpeeds,
-          backgroundColor: "rgba(100, 181, 246, 0.2)",
-          borderColor: "rgba(33, 150, 243, 1)",
+          label: "Temperature (°C)",
+          data: temperatures,
+          backgroundColor: "rgba(255, 99, 132, 0.2)",
+          borderColor: "rgba(255, 99, 132, 1)",
           fill: true,
           tension: 0.1,
         },
